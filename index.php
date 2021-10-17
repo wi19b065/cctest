@@ -127,6 +127,7 @@
             $name = $_COOKIE['name'];
             $price = $_COOKIE['price'];
             $currency = $_COOKIE['currency'];
+            
 
             // Create connection
             $conn = mysqli_connect($servername, $username, $password);
