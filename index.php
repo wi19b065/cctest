@@ -72,9 +72,7 @@
         </form>
     </div>
     <div class="container" id="dataContainer" style="color:white;">
-    <?php function errir($stringval) {
-        echo $stringval;
-        }?>
+
     </div>
 
 
@@ -149,13 +147,13 @@
             if ($conn->query($presql) === TRUE) {
                 //echo "New record created successfully";
               } else {
-                errir("Error: " . $presql . "<br>" . $conn->error);
+                //echo "Error: " . $presql . "<br>" . $conn->error;
             }
             //$conn->query($sql);
             if ($conn->query($sql) === TRUE) {
                 //echo "New record created successfully";
               } else {
-                errir("Error: " . $sql . "<br>" . $conn->error);
+                //echo "Error: " . $sql . "<br>" . $conn->error;
             }
             $conn->close();
 
