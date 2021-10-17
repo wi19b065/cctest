@@ -114,8 +114,7 @@
             //echo "Connected successfully";
 
 
-            $sql = "USE cctest; INSERT INTO crypto_data (id, email, symbol, name, price, currency)
-            VALUES (1, 'a@b.at', 'BITC', 'BITGOIN', 345.56, 'RONEN')";
+            $sql = "use `cctest`; INSERT INTO `crypto_data` (`id`, `email`, `symbol`, `name`, `price`, `currency`) VALUES ('1', 'a', 'a', 'a', 'a', '2')";
 
             //$conn->query($sql);
             if ($conn->query($sql) === TRUE) {
