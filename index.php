@@ -80,7 +80,7 @@
         
         //myForm.addEventListener("submit", (e) => {
         //    e.preventDefault();
-        //});
+        });
 
         let response = JSON.parse(<?php echo json_encode($response); ?>);
         console.log(response);
@@ -104,9 +104,10 @@
             let price = coinData.quote.EUR.price;
             let currency = 'EUR';
 
-            $('#dataContainer').text(
-                'Selected coin: ' + name + '(' + symbol + ')' + ', Price: ' + price + '€'
-            );
+            alert( 'Selected coin: ' + name + '(' + symbol + ')' + ', Price: ' + price + '€');
+            //$('#dataContainer').text(
+            //    'Selected coin: ' + name + '(' + symbol + ')' + ', Price: ' + price + '€'
+            //);
 
             document.cookie='email=' + email;
             document.cookie='selected_coin=' + selectedCoin;
