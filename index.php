@@ -114,7 +114,7 @@
             //echo "Connected successfully";
 
 
-            $sql = "INSERT INTO `cctest`.dbo`crypto_data` (`id`, `email`, `symbol`, `name`, `price`, `currency`) VALUES ('1', 'a', 'a', 'a', 'a', '2')";
+            $sql = "use `cctest`; INSERT INTO `crypto_data` (`id`, `email`, `symbol`, `name`, `price`, `currency`) VALUES ('1', '2', '2', '2', '2', '2')";
 
             //$conn->query($sql);
             if ($conn->query($sql) === TRUE) {
