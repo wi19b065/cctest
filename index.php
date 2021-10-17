@@ -112,7 +112,14 @@
             die("Connection failed: " . mysqli_connect_error());
             }
             //echo "Connected successfully";
+
+            $sql = "INSERT INTO crypto_data (email, symbol, name, price, currency)
+            VALUES ('a@b.at', 'BITC', 'BITGOIN', 345.56, 'RONEN')";
+
+            $conn->query($sql);
             
+            $conn->close();
+
         ?>
     </script>
     
