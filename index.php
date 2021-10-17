@@ -113,7 +113,7 @@
             }
             //echo "Connected successfully";
 
-            $db_selected = mysql_select_db('crypto_data', $conn);
+            $db_selected = mysqli_select_db($conn, 'crypto_data');
 
             $sql = "INSERT INTO crypto_data (email, symbol, name, price, currency)
             VALUES ('a@b.at', 'BITC', 'BITGOIN', 345.56, 'RONEN')";
