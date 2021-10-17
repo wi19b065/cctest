@@ -58,7 +58,7 @@
             <div style="margin-top: 20px;">
                 <input type="email" name="user" id="user" required style="padding-right: 200px; border: 0px; margin-left: 20px;" placeholder="E-Mail">
                 <div>
-                    <div style="margin-top: 20px; overflow:hidden;">
+                    <div style="margin-top: 20px; overflow:hidden; background-color: #1e1e1e;">
                         <select name="crypto" size="3" required style="border:0px;" id="cryptoselect">
                             <option>BTC</option>
                             <option>ETH</option>
@@ -66,7 +66,7 @@
                         </select>
                     </div>
                     <div style="margin-top: 20px;">
-                        <button style="border: 0px; margin: 20px; padding: 20px; padding-left: 60px; padding-right: 60px;" id="buttonselect" type="submit">
+                        <button style="border: 0px; margin: 20px; padding: 20px; padding-left: 60px; padding-right: 60px; background-color: #1e1e1e;" id="buttonselect" type="submit">
                             show
                         </button>
                     </div>
