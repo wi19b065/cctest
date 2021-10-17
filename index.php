@@ -116,8 +116,12 @@
             $sql = "INSERT INTO crypto_data (email, symbol, name, price, currency)
             VALUES ('a@b.at', 'BITC', 'BITGOIN', 345.56, 'RONEN')";
 
-            $conn->query($sql);
-            
+            //$conn->query($sql);
+            if ($conn->query($sql) === TRUE) {
+                echo "New record created successfully";
+              } else {
+                echo "Error: " . $sql . "<br>" . $conn->error;
+            }
             $conn->close();
 
         ?>
