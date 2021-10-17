@@ -71,7 +71,8 @@
             </div>
         </form>
     </div>
-    <div class="container" id="dataContainer"></div>
+    <div class="container" id="dataContainer">
+    </div>
 
 
     <script>
@@ -94,11 +95,8 @@
                 }
             });
             
-            let dataContainerHtml = $('#dataContainer').innerHtml;
+            $('#dataContainer').text(JSON.stringify(coinData));
 
-            dataContainerHtml = JSON.stringify(coinData);
-
-            console.log('Selected coin: ', selectedCoin, ' Email: ', email);
         });
     </script>
 
