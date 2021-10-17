@@ -110,6 +110,8 @@
             document.cookie='price=' + price;
             document.cookie='currency=' + currency;
 
+            console.log(email, selectedCoin, symbol, name, price, currency);
+
 
         });
 
