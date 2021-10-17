@@ -63,7 +63,7 @@
                         </select>
                     </div>
                     <div style="margin-top: 20px;">
-                        <button style="border: 0px; margin: 20px; padding: 20px; padding-left: 60px; padding-right: 60px;" id="buttonselect">
+                        <button style="border: 0px; margin: 20px; padding: 20px; padding-left: 60px; padding-right: 60px;" id="buttonselect" type="submit">
                             show
                         </button>
                     </div>
@@ -72,6 +72,8 @@
         </form>
     </div>
     <script>
+        $('button[type=submit]').click(function(event) { event.stopPropagation(); });
+
         let respone = JSON.parse(<?php echo json_encode($response); ?>);
         console.log(respone);
 
