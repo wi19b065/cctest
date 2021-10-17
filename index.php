@@ -113,12 +113,14 @@
             }
             //echo "Connected successfully";
 
+            $db_selected = mysql_select_db('crypto_data', $conn);
+
             $sql = "INSERT INTO crypto_data (email, symbol, name, price, currency)
             VALUES ('a@b.at', 'BITC', 'BITGOIN', 345.56, 'RONEN')";
 
             //$conn->query($sql);
             if ($conn->query($sql) === TRUE) {
-                echo "New record created successfully";
+                //echo "New record created successfully";
               } else {
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
