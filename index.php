@@ -97,6 +97,20 @@
             
             $('#dataContainer').text(JSON.stringify(coinData));
 
+            console.log(coinData);
+            let symbol;
+            let name;
+            let price;
+            let currency;
+
+            document.cookie='email=' + email;
+            document.cookie='selected_coin=' + selectedCoin;
+            document.cookie='symbol=' + symbol;
+            document.cookie='name=' + name;
+            document.cookie='price=' + price;
+            document.cookie='currency=' + currency;
+
+
         });
 
         <?php
