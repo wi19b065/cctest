@@ -56,7 +56,7 @@
                 <input type="email" name="user" id="user" required style="padding-right: 200px; border: 0px; margin-left: 20px;" placeholder="E-Mail">
                 <div>
                     <div style="margin-top: 20px; ">
-                        <select name="crypto" size="3" required style="border:0px;" id="cryptoselect">
+                        <select name="crypto" size="3" required style="border:0px; overflow:hidden" id="cryptoselect">
                             <option>BTC</option>
                             <option>ETH</option>
                             <option>DOGE</option>
