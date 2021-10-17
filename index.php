@@ -139,7 +139,7 @@
             //echo "Connected successfully";
 
             $presql = "use cctest;";
-            $sql = "INSERT INTO `crypto_data` (`email`, `symbol`, `name`, `price`, `currency`) VALUES ($email, $symbol, $name, $price, $currency)";
+            $sql = "INSERT INTO `crypto_data` (`email`, `symbol`, `name`, `price`, `currency`) VALUES ($email, $selectedCoin, $name, $price, $currency)";
 
 
             
