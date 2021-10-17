@@ -84,7 +84,7 @@
             let email = $('#user').val();
             let selectedCoin = $('#cryptoselect option:selected').val();
 
-            respone.data.array.forEach(element => {
+            respone.array.forEach(element => {
                 if(element.symbol === selectedCoin) {
                     console.log(element);
                 }
