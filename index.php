@@ -72,7 +72,10 @@
         </form>
     </div>
     <script>
-        $('button[type=submit]').click(function(event) { event.stopPropagation(); });
+        
+        myForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+        });
 
         let respone = JSON.parse(<?php echo json_encode($response); ?>);
         console.log(respone);
