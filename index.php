@@ -98,9 +98,8 @@
             $('#dataContainer').text(JSON.stringify(coinData));
 
         });
-    </script>
-    
-    <?php
+
+        <?php
         $servername = "localhost:3306";
         $username = "cctest";
         $password = "Kjrb910?";
@@ -113,7 +112,10 @@
         die("Connection failed: " . mysqli_connect_error());
         }
         echo "Connected successfully";
-    ?>
+        ?>
+    </script>
+    
+    
     
 
 </body>
