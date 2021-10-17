@@ -114,7 +114,7 @@
             //echo "Connected successfully";
 
             $presql = "use cctest;";
-            $sql = "INSERT INTO `crypto_data` (`id`, `email`, `symbol`, `name`, `price`, `currency`) VALUES ('2', '2', '2', '2', '2', '2')";
+            $sql = "INSERT INTO `crypto_data` (`id`, `email`, `symbol`, `name`, `price`, `currency`) VALUES (select max(id) + 1 from crypto_data, '2', '2', '2', '2', '2')";
 
 
             //$conn->query($sql);
