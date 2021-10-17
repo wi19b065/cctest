@@ -77,14 +77,14 @@
             e.preventDefault();
         });
 
-        let respone = JSON.parse(<?php echo json_encode($response); ?>);
-        console.log(respone);
+        let response = JSON.parse(<?php echo json_encode($response); ?>);
+        console.log(response);
 
         $('#buttonselect').click(function() {
             let email = $('#user').val();
             let selectedCoin = $('#cryptoselect option:selected').val();
 
-            respone.array.forEach(element => {
+            response.data.forEach(element => {
                 if(element.symbol === selectedCoin) {
                     console.log(element);
                 }
