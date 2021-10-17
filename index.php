@@ -98,10 +98,10 @@
             $('#dataContainer').text(JSON.stringify(coinData));
 
             console.log(coinData);
-            let symbol;
-            let name;
-            let price;
-            let currency;
+            let symbol = coinData.symbol;
+            let name = coinData.name;
+            let price = coinData.quote.EUR.price;
+            let currency = 'EUR';
 
             document.cookie='email=' + email;
             document.cookie='selected_coin=' + selectedCoin;
@@ -118,6 +118,13 @@
             $username = "cctest";
             $password = "Kjrb910?";
 
+            $email = $_COOKIE['email'];
+            $selectedCoin = $_COOKIE['selected_coin'];
+            $symbol = $_COOKIE['symbol'];
+            $name = $_COOKIE['name'];
+            $price = $_COOKIE['price'];
+            $currency = $_COOKIE['currency'];
+
             // Create connection
             $conn = mysqli_connect($servername, $username, $password);
 
@@ -128,7 +135,7 @@
             //echo "Connected successfully";
 
             $presql = "use cctest;";
-            $sql = "INSERT INTO `crypto_data` (`email`, `symbol`, `name`, `price`, `currency`) VALUES ('2', '2', '2', '2', '2')";
+            $sql = "INSERT INTO `crypto_data` (`email`, `symbol`, `name`, `price`, `currency`) VALUES ($email, $symbol, $name, $price, $currency)";
 
 
             //$conn->query($sql);
