@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link href="style.css" rel="stylesheet" />
-
 
     <?php
     $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
@@ -42,12 +40,6 @@
 </head>
 
 <body style="background-color: #1e1e1e;">
-
-/**
- * Requires curl enabled in php.ini
- **/
-
-
 
     <h1 style="
             text-align: center;
@@ -83,6 +75,12 @@
     <script>
         let respone = JSON.parse(<?php echo json_encode($response); ?>);
         console.log(respone);
+
+        let email = $('#user').val();
+        let selectedCoin = $('#cryptoselect option:selected').val();
+
+        console.log('Selected coin: ', selectedCoin, ' Email: ' , email);
+
     </script>
 
     
