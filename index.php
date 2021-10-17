@@ -75,11 +75,14 @@
     <script>
         let respone = JSON.parse(<?php echo json_encode($response); ?>);
         console.log(respone);
+        
+        $('#buttonselect').click(function() {
+            let email = $('#user').val();
+            let selectedCoin = $('#cryptoselect option:selected').val();
 
-        let email = $('#user').val();
-        let selectedCoin = $('#cryptoselect option:selected').val();
-
-        console.log('Selected coin: ', selectedCoin, ' Email: ' , email);
+            console.log('Selected coin: ', selectedCoin, ' Email: ' , email);
+        });
+        
 
     </script>
 
