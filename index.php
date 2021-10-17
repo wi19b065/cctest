@@ -9,9 +9,46 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link href="style.css" rel="stylesheet" />
+
+
+    <?php
+    $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
+    $parameters = [
+    'start' => '1',
+    'limit' => '50',
+    'convert' => 'EUR'
+    ];
+
+    $headers = [
+    'Accepts: application/json',
+    'X-CMC_PRO_API_KEY: 5fc5e4fe-ff05-44d4-913d-03fe7ef61cbd'
+    ];
+    $qs = http_build_query($parameters); // query string encode the parameters
+    $request = "{$url}?{$qs}"; // create the request URL
+
+
+    $curl = curl_init(); // Get cURL resource
+    // Set cURL options
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => $request,            // set the request URL
+    CURLOPT_HTTPHEADER => $headers,     // set the headers 
+    CURLOPT_RETURNTRANSFER => 1         // ask for raw response instead of bool
+    ));
+
+    $response = curl_exec($curl); // Send the request, save the response
+    //print_r(json_decode($response)); // print json decoded response
+    curl_close($curl); // Close request
+    ?>
 </head>
 
 <body style="background-color: #1e1e1e;">
+
+/**
+ * Requires curl enabled in php.ini
+ **/
+
+
+
     <h1 style="
             text-align: center;
             color: darkgrey; 
@@ -43,6 +80,9 @@
             </div>
         </form>
     </div>
+    <p>
+        <?php print_r(json_decode($response));?>
+    </p>
 
     
 </body>
