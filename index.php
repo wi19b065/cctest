@@ -96,7 +96,9 @@
                 }
             });
             
-            $('#dataContainer').text(JSON.stringify(coinData));
+            $('#dataContainer').text(
+                'Selected coin: ' + name + '(' + symbol + ')' + ', Price: ' + price + '€'
+            );
 
             console.log(coinData);
             let symbol = coinData.symbol;
