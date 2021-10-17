@@ -71,6 +71,9 @@
             </div>
         </form>
     </div>
+    <div class="container" id="dataContainer"></div>
+
+
     <script>
         
         myForm.addEventListener("submit", (e) => {
@@ -83,12 +86,15 @@
         $('#buttonselect').click(function() {
             let email = $('#user').val();
             let selectedCoin = $('#cryptoselect option:selected').val();
+            let coinData;
 
             response.data.forEach(element => {
                 if(element.symbol === selectedCoin) {
-                    console.log(element);
+                    coinData = element;
                 }
             });
+
+            $('#dataContainer').innerHTML(coinData);
 
             console.log('Selected coin: ', selectedCoin, ' Email: ', email);
         });
