@@ -78,9 +78,9 @@
 
     <script>
         
-        myForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-        });
+        //myForm.addEventListener("submit", (e) => {
+        //    e.preventDefault();
+        //});
 
         let response = JSON.parse(<?php echo json_encode($response); ?>);
         console.log(response);
