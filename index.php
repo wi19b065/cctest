@@ -10,7 +10,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ephesis&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
 
     <?php
     $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
@@ -42,7 +42,7 @@
     ?>
 </head>
 
-<body style="background-color: #1e1e1e; font-family: 'Ephesis', cursive;">
+<body style="background-color: #1e1e1e; font-family: 'Source Code Pro', monospace;">
 
     <h1 style="
             text-align: center;
@@ -53,7 +53,7 @@
             font-size: 60px;">
         Crypto API and AWS
     </h1>
-    <div class="container" style="text-align: center; font-size: 18px; background-color: lightgray; padding: 40px;">
+    <div class="container" style="text-align: center; font-size: 18px; background-color:black; color:chartreuse; padding: 40px;">
         <form id="myForm" class="form">
             <div style="margin-top: 20px;">
                 <input type="email" name="user" id="user" required style="padding-right: 200px; border: 0px; margin-left: 20px;" placeholder="E-Mail">
