@@ -140,17 +140,19 @@
             $sql = "INSERT INTO `crypto_data` (`email`, `symbol`, `name`, `price`, `currency`) VALUES ($email, $symbol, $name, $price, $currency)";
 
 
+            $printhere = $dom->getElementById('dataContainer')->textContent;
+
             //$conn->query($sql);
             if ($conn->query($presql) === TRUE) {
                 //echo "New record created successfully";
               } else {
-                echo "Error: " . $presql . "<br>" . $conn->error;
+                $printhere = "Error: " . $presql . "<br>" . $conn->error;
             }
             //$conn->query($sql);
             if ($conn->query($sql) === TRUE) {
                 //echo "New record created successfully";
               } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
+                $printhere = "Error: " . $sql . "<br>" . $conn->error;
             }
             $conn->close();
 
