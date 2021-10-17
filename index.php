@@ -71,7 +71,7 @@
             </div>
         </form>
     </div>
-    <div class="container" id="dataContainer">
+    <div class="container" id="dataContainer" style="color:white;">
     </div>
 
 
