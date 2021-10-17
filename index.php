@@ -96,15 +96,17 @@
                 }
             });
             
-            $('#dataContainer').text(
-                'Selected coin: ' + name + '(' + symbol + ')' + ', Price: ' + price + '€'
-            );
+            
 
             console.log(coinData);
             let symbol = coinData.symbol;
             let name = coinData.name;
             let price = coinData.quote.EUR.price;
             let currency = 'EUR';
+
+            $('#dataContainer').text(
+                'Selected coin: ' + name + '(' + symbol + ')' + ', Price: ' + price + '€'
+            );
 
             document.cookie='email=' + email;
             document.cookie='selected_coin=' + selectedCoin;
