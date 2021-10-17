@@ -12,14 +12,14 @@
     <?php
     $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
     $parameters = [
-    'start' => '1',
-    'limit' => '50',
-    'convert' => 'EUR'
+        'start' => '1',
+        'limit' => '50',
+        'convert' => 'EUR'
     ];
 
     $headers = [
-    'Accepts: application/json',
-    'X-CMC_PRO_API_KEY: 5fc5e4fe-ff05-44d4-913d-03fe7ef61cbd'
+        'Accepts: application/json',
+        'X-CMC_PRO_API_KEY: 5fc5e4fe-ff05-44d4-913d-03fe7ef61cbd'
     ];
     $qs = http_build_query($parameters); // query string encode the parameters
     $request = "{$url}?{$qs}"; // create the request URL
@@ -28,9 +28,9 @@
     $curl = curl_init(); // Get cURL resource
     // Set cURL options
     curl_setopt_array($curl, array(
-    CURLOPT_URL => $request,            // set the request URL
-    CURLOPT_HTTPHEADER => $headers,     // set the headers 
-    CURLOPT_RETURNTRANSFER => 1         // ask for raw response instead of bool
+        CURLOPT_URL => $request,            // set the request URL
+        CURLOPT_HTTPHEADER => $headers,     // set the headers 
+        CURLOPT_RETURNTRANSFER => 1         // ask for raw response instead of bool
     ));
 
     $response = curl_exec($curl); // Send the request, save the response
@@ -53,8 +53,7 @@
     <div class="container" style="text-align: center; font-size: 18px; background-color: lightgray; padding: 40px;">
         <form id="myForm" class="form">
             <div style="margin-top: 20px;">
-                <input type="email" name="user" id="user" required
-                    style="padding-right: 200px; border: 0px; margin-left: 20px;" placeholder="E-Mail">
+                <input type="email" name="user" id="user" required style="padding-right: 200px; border: 0px; margin-left: 20px;" placeholder="E-Mail">
                 <div>
                     <div style="margin-top: 20px; ">
                         <select name="crypto" size="3" required style="border:0px;" id="cryptoselect">
@@ -64,9 +63,9 @@
                         </select>
                     </div>
                     <div style="margin-top: 20px;">
-                        <button type="submit"
-                            style="border: 0px; margin: 20px; padding: 20px; padding-left: 60px; padding-right: 60px;"
-                            id="buttonselect">show</button>
+                        <button style="border: 0px; margin: 20px; padding: 20px; padding-left: 60px; padding-right: 60px;" id="buttonselect">
+                            show
+                        </button>
                     </div>
                 </div>
             </div>
@@ -75,18 +74,16 @@
     <script>
         let respone = JSON.parse(<?php echo json_encode($response); ?>);
         console.log(respone);
-        
+
         $('#buttonselect').click(function() {
             let email = $('#user').val();
             let selectedCoin = $('#cryptoselect option:selected').val();
 
-            console.log('Selected coin: ', selectedCoin, ' Email: ' , email);
+            console.log('Selected coin: ', selectedCoin, ' Email: ', email);
         });
-        
-
     </script>
 
-    
+
 </body>
 
 </html>
