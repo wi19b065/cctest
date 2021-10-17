@@ -93,8 +93,10 @@
                     coinData = element;
                 }
             });
+            
+            let dataContainerHtml = $('#dataContainer').innerHtml;
 
-            $('' + coinData + '').appendTo($('#dataContainer'));
+            dataContainerHtml = JSON.stringify(coinData);
 
             console.log('Selected coin: ', selectedCoin, ' Email: ', email);
         });
