@@ -127,7 +127,6 @@
             $name = $_COOKIE['name'];
             $price = $_COOKIE['price'];
             $currency = $_COOKIE['currency'];
-            
 
             // Create connection
             $conn = mysqli_connect($servername, $username, $password);
@@ -139,7 +138,7 @@
             //echo "Connected successfully";
 
             $presql = "use cctest;";
-            $sql = "INSERT INTO `crypto_data` (`email`, `symbol`, `name`, `price`, `currency`) VALUES ($email, $selectedCoin, $name, $price, $currency)";
+            $sql = "INSERT INTO `crypto_data` (`email`, `symbol`, `name`, `price`, `currency`) VALUES ('$email', '$selectedCoin', '$name', '$price', '$currency')";
 
 
             
@@ -154,7 +153,7 @@
             if ($conn->query($sql) === TRUE) {
                 //echo "New record created successfully";
               } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
+                //echo "Error: " . $sql . "<br>" . $conn->error;
             }
             $conn->close();
 
