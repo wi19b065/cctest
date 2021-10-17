@@ -8,9 +8,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
 
     <?php
     $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
@@ -42,23 +39,23 @@
     ?>
 </head>
 
-<body style="background-color: #1e1e1e; font-family: 'Source Code Pro', monospace;">
+<body style="background-color: #1e1e1e;">
 
     <h1 style="
             text-align: center;
-            color: cyan; 
-            font-weight: 700; 
+            color: darkgrey; 
+            font-weight: 600; 
             margin-bottom: 40px; 
             margin-top: 40px; 
             font-size: 60px;">
         Crypto API and AWS
     </h1>
-    <div class="container" style="text-align: center; font-size: 18px; background-color:black; color:chartreuse; padding: 40px;">
+    <div class="container" style="text-align: center; font-size: 18px; background-color: lightgray; padding: 40px;">
         <form id="myForm" class="form">
             <div style="margin-top: 20px;">
                 <input type="email" name="user" id="user" required style="padding-right: 200px; border: 0px; margin-left: 20px;" placeholder="E-Mail">
                 <div>
-                    <div style="margin-top: 20px; overflow:hidden; width: 10em; color: #1e1e1e;">
+                    <div style="margin-top: 20px; ">
                         <select name="crypto" size="3" required style="border:0px;" id="cryptoselect">
                             <option>BTC</option>
                             <option>ETH</option>
@@ -66,7 +63,7 @@
                         </select>
                     </div>
                     <div style="margin-top: 20px;">
-                        <button class="btn" id="buttonselect" type="submit">
+                        <button style="border: 0px; margin: 20px; padding: 20px; padding-left: 60px; padding-right: 60px;" id="buttonselect" type="submit">
                             show
                         </button>
                     </div>
