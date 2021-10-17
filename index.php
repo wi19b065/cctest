@@ -80,9 +80,10 @@
             </div>
         </form>
     </div>
-    <p>
-        <?php print_r(json_decode($response));?>
-    </p>
+    <script>
+        let respone = JSON.parse(<?php echo json_encode($response); ?>);
+        console.log(respone);
+    </script>
 
     
 </body>
