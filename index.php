@@ -46,8 +46,8 @@
 
     <h1 style="
             text-align: center;
-            color: darkgrey; 
-            font-weight: 600; 
+            color: cyan; 
+            font-weight: 700; 
             margin-bottom: 40px; 
             margin-top: 40px; 
             font-size: 60px;">
