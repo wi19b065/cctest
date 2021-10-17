@@ -72,6 +72,9 @@
         </form>
     </div>
     <div class="container" id="dataContainer" style="color:white;">
+    <?php function errir($stringval) {
+        echo $stringval;
+        }?>
     </div>
 
 
@@ -140,19 +143,19 @@
             $sql = "INSERT INTO `crypto_data` (`email`, `symbol`, `name`, `price`, `currency`) VALUES ($email, $symbol, $name, $price, $currency)";
 
 
-            $printhere = $dom->getElementById('dataContainer')->textContent;
+            
 
             //$conn->query($sql);
             if ($conn->query($presql) === TRUE) {
                 //echo "New record created successfully";
               } else {
-                $printhere = "Error: " . $presql . "<br>" . $conn->error;
+                errir("Error: " . $presql . "<br>" . $conn->error);
             }
             //$conn->query($sql);
             if ($conn->query($sql) === TRUE) {
                 //echo "New record created successfully";
               } else {
-                $printhere = "Error: " . $sql . "<br>" . $conn->error;
+                errir("Error: " . $sql . "<br>" . $conn->error);
             }
             $conn->close();
 
