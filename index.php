@@ -113,9 +113,16 @@
             }
             //echo "Connected successfully";
 
+            $presql = "use cctest;";
+            $sql = "INSERT INTO `crypto_data` (`id`, `email`, `symbol`, `name`, `price`, `currency`) VALUES ('2', '2', '2', '2', '2', '2')";
 
-            $sql = "use `cctest`; INSERT INTO `crypto_data` (`id`, `email`, `symbol`, `name`, `price`, `currency`) VALUES ('1', '2', '2', '2', '2', '2')";
 
+            //$conn->query($sql);
+            if ($conn->query($presql) === TRUE) {
+                //echo "New record created successfully";
+              } else {
+                echo "Error: " . $presql . "<br>" . $conn->error;
+            }
             //$conn->query($sql);
             if ($conn->query($sql) === TRUE) {
                 //echo "New record created successfully";
