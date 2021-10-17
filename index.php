@@ -94,7 +94,7 @@
                 }
             });
 
-            coinData.appendTo($('#dataContainer'));
+            $('' + coinData + '').appendTo($('#dataContainer'));
 
             console.log('Selected coin: ', selectedCoin, ' Email: ', email);
         });
