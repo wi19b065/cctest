@@ -11,16 +11,16 @@
 
     <?php
     $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
-    $parameters = [
+    $parameters = array (
         'start' => '1',
         'limit' => '50',
         'convert' => 'EUR'
-    ];
+    );
 
-    $headers = [
+    $headers = array (
         'Accepts: application/json',
         'X-CMC_PRO_API_KEY: 5fc5e4fe-ff05-44d4-913d-03fe7ef61cbd'
-    ];
+    );
     $qs = http_build_query($parameters); // query string encode the parameters
     $request = "{$url}?{$qs}"; // create the request URL
 

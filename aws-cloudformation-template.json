@@ -1,0 +1,627 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "This is the test template for CC WS 2021 LAMP Server",
+    "Parameters": {
+        "KeyName": {
+            "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instance",
+            "Type": "AWS::EC2::KeyPair::KeyName",
+            "ConstraintDescription": "must be the name of an existing EC2 KeyPair."
+        },
+        "DBName": {
+            "Default": "MyDatabase",
+            "Description": "MySQL database name",
+            "Type": "String",
+            "MinLength": "6",
+            "MaxLength": "64",
+            "AllowedPattern": "[a-zA-Z][a-zA-Z0-9]*",
+            "ConstraintDescription": "must begin with a letter and contain only alphanumeric characters."
+        },
+        "DBTableName": {
+            "Default": "MyTableName",
+            "Description": "MySQL database table name",
+            "Type": "String",
+            "MinLength": "6",
+            "MaxLength": "64",
+            "AllowedPattern": "[a-zA-Z][a-zA-Z0-9]*",
+            "ConstraintDescription": "must begin with a letter and contain only alphanumeric characters."
+        },
+        "DBUser": {
+            "Default": "MyDBUser",
+            "Description": "Username for MySQL database access",
+            "Type": "String",
+            "MinLength": "6",
+            "MaxLength": "16",
+            "AllowedPattern": "[a-zA-Z][a-zA-Z0-9]*",
+            "ConstraintDescription": "must begin with a letter and contain only alphanumeric characters."
+        },
+        "DBPassword": {
+            "Default": "MyDBPassword",
+            "Description": "Password for MySQL database access",
+            "Type": "String",
+            "MinLength": "8",
+            "MaxLength": "41",
+            "AllowedPattern": "[a-zA-Z0-9]*",
+            "ConstraintDescription": "must contain only alphanumeric characters."
+        },
+        "DBRootPassword": {
+            "Default": "MyDBRootPassword",
+            "Description": "Root password for MySQL",
+            "Type": "String",
+            "MinLength": "10",
+            "MaxLength": "41",
+            "AllowedPattern": "[a-zA-Z0-9]*",
+            "ConstraintDescription": "must contain only alphanumeric characters."
+        },
+        "InstanceType": {
+            "Description": "WebServer EC2 instance type",
+            "Type": "String",
+            "Default": "t2.micro",
+            "AllowedValues": [
+                "t2.micro"
+            ],
+            "ConstraintDescription": "must be a t2.micro instance type, only thing that works."
+        },
+        "SSHLocation": {
+            "Description": " The IP address range that can be used to SSH to the EC2 instances",
+            "Type": "String",
+            "MinLength": "9",
+            "MaxLength": "18",
+            "Default": "0.0.0.0/0",
+            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+            "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
+        }
+    },
+    "Mappings": {
+        "AWSInstanceType2Arch": {
+            "t2.micro": {
+                "Arch": "HVM64"
+            }
+        },
+        "AWSInstanceType2NATArch": {
+            "t2.micro": {
+                "Arch": "NATHVM64"
+            }
+        },
+        "AWSRegionArch2AMI": {
+            "us-east-1": {
+                "HVM64": "ami-032930428bf1abbff",
+                "HVMG2": "ami-0aeb704d503081ea6"
+            }
+        }
+    },
+    "Resources": {
+        "WebServerInstance": {
+            "Type": "AWS::EC2::Instance",
+            "Metadata": {
+                "AWS::CloudFormation::Init": {
+                    "configSets": {
+                        "InstallAndRun": [
+                            "Install",
+                            "Configure"
+                        ]
+                    },
+                    "Install": {
+                        "packages": {
+                            "yum": {
+                                "mysql": [],
+                                "mysql-server": [],
+                                "mysql-libs": [],
+                                "httpd": [],
+                                "php": [],
+                                "php-mysql": []
+                            }
+                        },
+                        "files": {
+                            "/var/www/html/index.php": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "<!DOCTYPE html>\n",
+                                            "<html lang=\"en\">\n",
+                                            "\n",
+                                            "<head>\n",
+                                            "    <title>Crypto</title>\n",
+                                            "    <meta charset=\"UTF-8\">\n",
+                                            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n",
+                                            "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css\">\n",
+                                            "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>\n",
+                                            "    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js\"></script>\n",
+                                            "\n",
+                                            "    <?php\n",
+                                            "    $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';\n",
+                                            "    $parameters = array (\n",
+                                            "        'start' => '1',\n",
+                                            "        'limit' => '50',\n",
+                                            "        'convert' => 'EUR'\n",
+                                            "    );\n",
+                                            "\n",
+                                            "    $headers = array (\n",
+                                            "        'Accepts: application/json',\n",
+                                            "        'X-CMC_PRO_API_KEY: 5fc5e4fe-ff05-44d4-913d-03fe7ef61cbd'\n",
+                                            "    );\n",
+                                            "    $qs = http_build_query($parameters); // query string encode the parameters\n",
+                                            "    $request = \"{$url}?{$qs}\"; // create the request URL\n",
+                                            "\n",
+                                            "\n",
+                                            "    $curl = curl_init(); // Get cURL resource\n",
+                                            "    // Set cURL options\n",
+                                            "    curl_setopt_array($curl, array(\n",
+                                            "        CURLOPT_URL => $request,            // set the request URL\n",
+                                            "        CURLOPT_HTTPHEADER => $headers,     // set the headers \n",
+                                            "        CURLOPT_RETURNTRANSFER => 1         // ask for raw response instead of bool\n",
+                                            "    ));\n",
+                                            "\n",
+                                            "    $response = curl_exec($curl); // Send the request, save the response\n",
+                                            "    //print_r(json_decode($response)); // print json decoded response\n",
+                                            "    curl_close($curl); // Close request\n",
+                                            "    ?>\n",
+                                            "</head>\n",
+                                            "\n",
+                                            "<body style=\"background-color: #1e1e1e;\">\n",
+                                            "\n",
+                                            "    <h1 style=\"\n",
+                                            "            text-align: center;\n",
+                                            "            color: darkgrey; \n",
+                                            "            font-weight: 600; \n",
+                                            "            margin-bottom: 40px; \n",
+                                            "            margin-top: 40px; \n",
+                                            "            font-size: 60px;\">\n",
+                                            "        Crypto API and AWS\n",
+                                            "    </h1>\n",
+                                            "    <div class=\"container\" style=\"text-align: center; font-size: 18px; background-color: lightgray; padding: 40px;\">\n",
+                                            "        <form id=\"myForm\" class=\"form\">\n",
+                                            "            <div style=\"margin-top: 20px;\">\n",
+                                            "                <input type=\"email\" name=\"user\" id=\"user\" required style=\"padding-right: 200px; border: 0px; margin-left: 20px;\" placeholder=\"E-Mail\">\n",
+                                            "                <div>\n",
+                                            "                    <div style=\"margin-top: 20px; \">\n",
+                                            "                        <select name=\"crypto\" size=\"3\" required style=\"border:0px; overflow:hidden\" id=\"cryptoselect\">\n",
+                                            "                            <option>BTC</option>\n",
+                                            "                            <option>ETH</option>\n",
+                                            "                            <option>DOGE</option>\n",
+                                            "                        </select>\n",
+                                            "                    </div>\n",
+                                            "                    <div style=\"margin-top: 20px;\">\n",
+                                            "                        <button style=\"border: 0px; margin: 20px; padding: 20px; padding-left: 60px; padding-right: 60px;\" id=\"buttonselect\" type=\"submit\">\n",
+                                            "                            show\n",
+                                            "                        </button>\n",
+                                            "                    </div>\n",
+                                            "                </div>\n",
+                                            "            </div>\n",
+                                            "        </form>\n",
+                                            "    </div>\n",
+                                            "    <div class=\"container\" id=\"dataContainer\" style=\"color:white;\">\n",
+                                            "\n",
+                                            "    </div>\n",
+                                            "\n",
+                                            "\n",
+                                            "    <script>\n",
+                                            "        \n",
+                                            "        //myForm.addEventListener(\"submit\", (e) => {\n",
+                                            "        //    e.preventDefault();\n",
+                                            "        //});\n",
+                                            "\n",
+                                            "        let response = JSON.parse(<?php echo json_encode($response); ?>);\n",
+                                            "        console.log(response);\n",
+                                            "\n",
+                                            "        $('#buttonselect').click(function() {\n",
+                                            "            let email = $('#user').val();\n",
+                                            "            let selectedCoin = $('#cryptoselect option:selected').val();\n",
+                                            "            let coinData;\n",
+                                            "\n",
+                                            "            response.data.forEach(element => {\n",
+                                            "                if(element.symbol === selectedCoin) {\n",
+                                            "                    coinData = element;\n",
+                                            "                }\n",
+                                            "            });\n",
+                                            "            \n",
+                                            "            \n",
+                                            "\n",
+                                            "            console.log(coinData);\n",
+                                            "            let symbol = coinData.symbol;\n",
+                                            "            let name = coinData.name;\n",
+                                            "            let price = coinData.quote.EUR.price;\n",
+                                            "            let currency = 'EUR';\n",
+                                            "\n",
+                                            "            alert( 'Selected coin: ' + name + '(' + symbol + ')' + ', Price: ' + price + '€');\n",
+                                            "            //$('#dataContainer').text(\n",
+                                            "            //    'Selected coin: ' + name + '(' + symbol + ')' + ', Price: ' + price + '€'\n",
+                                            "            //);\n",
+                                            "\n",
+                                            "            document.cookie='email=' + email;\n",
+                                            "            document.cookie='selected_coin=' + selectedCoin;\n",
+                                            "            document.cookie='symbol=' + symbol;\n",
+                                            "            document.cookie='name=' + name;\n",
+                                            "            document.cookie='price=' + price;\n",
+                                            "            document.cookie='currency=' + currency;\n",
+                                            "\n",
+                                            "            console.log(email, selectedCoin, symbol, name, price, currency);\n",
+                                            "\n",
+                                            "\n",
+                                            "        });\n",
+                                            "\n",
+                                            "        <?php\n",
+                                            "            $servername = \"localhost\";\n",
+                                            "            $username = \"",
+                                                        {
+                                                            "Ref": "DBUser"
+                                                        },
+                                                        "\";\n",
+                                            "            $password = \"",
+                                                        {
+                                                            "Ref": "DBPassword"
+                                                        },
+                                            "\";\n",
+                                            "\n",
+                                            "            $email = $_COOKIE['email'];\n",
+                                            "            $selectedCoin = $_COOKIE['selected_coin'];\n",
+                                            "            $symbol = $_COOKIE['symbol'];\n",
+                                            "            $name = $_COOKIE['name'];\n",
+                                            "            $price = $_COOKIE['price'];\n",
+                                            "            $currency = $_COOKIE['currency'];\n",
+                                            "\n",
+                                            "            // Create connection\n",
+                                            "            $conn = mysqli_connect($servername, $username, $password);\n",
+                                            "\n",
+                                            "            // Check connection\n",
+                                            "            if (!$conn) {\n",
+                                            "            die(\"Connection failed: \" . mysqli_connect_error());\n",
+                                            "            }\n",
+                                            "            //echo \"Connected successfully\";\n",
+                                            "\n",
+                                            "            $presql = \"use ",
+                                            {
+                                                "Ref": "DBName"
+                                            },
+                                            ";\";\n",
+                                            "            $sql = \"INSERT INTO ",
+                                            {
+                                                "Ref": "DBTableName"
+                                            },
+                                            " (email, symbol, name, price, currency) VALUES ('$email', '$selectedCoin', '$name', '$price', '$currency')\";\n",
+                                            "\n",
+                                            "\n",
+                                            "            \n",
+                                            "\n",
+                                            "            //$conn->query($sql);\n",
+                                            "            if ($conn->query($presql) === TRUE) {\n",
+                                            "                //echo \"New record created successfully\";\n",
+                                            "              } else {\n",
+                                            "                //echo \"Error: \" . $presql . \"<br>\" . $conn->error;\n",
+                                            "            }\n",
+                                            "            //$conn->query($sql);\n",
+                                            "            if ($conn->query($sql) === TRUE) {\n",
+                                            "                //echo \"New record created successfully\";\n",
+                                            "              } else {\n",
+                                            "                //echo \"Error: \" . $sql . \"<br>\" . $conn->error;\n",
+                                            "            }\n",
+                                            "            $conn->close();\n",
+                                            "\n",
+                                            "        ?>\n",
+                                            "    </script>\n",
+                                            "    \n",
+                                            "    \n",
+                                            "    \n",
+                                            "\n",
+                                            "</body>\n",
+                                            "\n",
+                                            "</html>"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000600",
+                                "owner": "apache",
+                                "group": "apache"
+                            },
+                            "/tmp/setup.mysql": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "CREATE DATABASE ",
+                                            {
+                                                "Ref": "DBName"
+                                            },
+                                            ";\n",
+                                            "GRANT ALL ON ",
+                                            {
+                                                "Ref": "DBName"
+                                            },
+                                            ".* TO '",
+                                            {
+                                                "Ref": "DBUser"
+                                            },
+                                            "'@localhost IDENTIFIED BY '",
+                                            {
+                                                "Ref": "DBPassword"
+                                            },
+                                            "';\n",
+                                            " USE ",
+                                            {
+                                                "Ref": "DBName"
+                                            },
+                                            "; \n",
+                                            " CREATE TABLE ",
+                                            {
+                                                "Ref": "DBTableName"
+                                            },
+                                            " (id int(11) NOT NULL, ",
+                                            " email varchar(50) NOT NULL, ",
+                                            " symbol varchar(50) NOT NULL, ",
+                                            " name varchar(50) NOT NULL, ",
+                                            " price double NOT NULL, ",
+                                            " currency varchar(50) NOT NULL, ",
+                                            " timestamp timestamp NOT NULL DEFAULT current_timestamp()); ", 
+
+                                            " ALTER TABLE ",
+                                            {
+                                                "Ref": "DBTableName"
+                                            },
+                                            " ADD UNIQUE KEY id (id); ",
+                                            " ALTER TABLE ",
+                                            {
+                                                "Ref": "DBTableName"
+                                            },
+                                            " MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1; ",
+                                            " COMMIT; "
+                                        ]
+                                    ]
+                                },
+                                "mode": "000400",
+                                "owner": "root",
+                                "group": "root"
+                            },
+                            "/etc/cfn/cfn-hup.conf": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "[main]\n",
+                                            "stack=",
+                                            {
+                                                "Ref": "AWS::StackId"
+                                            },
+                                            "\n",
+                                            "region=",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000400",
+                                "owner": "root",
+                                "group": "root"
+                            },
+                            "/etc/cfn/hooks.d/cfn-auto-reloader.conf": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "[cfn-auto-reloader-hook]\n",
+                                            "triggers=post.update\n",
+                                            "path=Resources.WebServerInstance.Metadata.AWS::CloudFormation::Init\n",
+                                            "action=/opt/aws/bin/cfn-init -v ",
+                                            "         --stack ",
+                                            {
+                                                "Ref": "AWS::StackName"
+                                            },
+                                            "         --resource WebServerInstance ",
+                                            "         --configsets InstallAndRun ",
+                                            "         --region ",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n",
+                                            "runas=root\n"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000400",
+                                "owner": "root",
+                                "group": "root"
+                            }
+                        },
+                        "services": {
+                            "sysvinit": {
+                                "mysqld": {
+                                    "enabled": "true",
+                                    "ensureRunning": "true"
+                                },
+                                "httpd": {
+                                    "enabled": "true",
+                                    "ensureRunning": "true"
+                                },
+                                "cfn-hup": {
+                                    "enabled": "true",
+                                    "ensureRunning": "true",
+                                    "files": [
+                                        "/etc/cfn/cfn-hup.conf",
+                                        "/etc/cfn/hooks.d/cfn-auto-reloader.conf"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "Configure": {
+                        "commands": {
+                            "01_set_mysql_root_password": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "mysqladmin -u root password '",
+                                            {
+                                                "Ref": "DBRootPassword"
+                                            },
+                                            "'"
+                                        ]
+                                    ]
+                                },
+                                "test": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "$(mysql ",
+                                            {
+                                                "Ref": "DBName"
+                                            },
+                                            " -u root --password='",
+                                            {
+                                                "Ref": "DBRootPassword"
+                                            },
+                                            "' >/dev/null 2>&1 </dev/null); (( $? != 0 ))"
+                                        ]
+                                    ]
+                                }
+                            },
+                            "02_create_database": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "mysql -u root --password='",
+                                            {
+                                                "Ref": "DBRootPassword"
+                                            },
+                                            "' < /tmp/setup.mysql"
+                                        ]
+                                    ]
+                                },
+                                "test": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "$(mysql ",
+                                            {
+                                                "Ref": "DBName"
+                                            },
+                                            " -u root --password='",
+                                            {
+                                                "Ref": "DBRootPassword"
+                                            },
+                                            "' >/dev/null 2>&1 </dev/null); (( $? != 0 ))"
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "Properties": {
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "AWSRegionArch2AMI",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        {
+                            "Fn::FindInMap": [
+                                "AWSInstanceType2Arch",
+                                {
+                                    "Ref": "InstanceType"
+                                },
+                                "Arch"
+                            ]
+                        }
+                    ]
+                },
+                "InstanceType": {
+                    "Ref": "InstanceType"
+                },
+                "SecurityGroups": [
+                    {
+                        "Ref": "WebServerSecurityGroup"
+                    }
+                ],
+                "KeyName": {
+                    "Ref": "KeyName"
+                },
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash -xe\n",
+                                "yum update -y aws-cfn-bootstrap\n",
+                                "# Install the files and packages from the metadata\n",
+                                "/opt/aws/bin/cfn-init -v ",
+                                "         --stack ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                "         --resource WebServerInstance ",
+                                "         --configsets InstallAndRun ",
+                                "         --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "\n",
+                                "# Signal the status from cfn-init\n",
+                                "/opt/aws/bin/cfn-signal -e $? ",
+                                "         --stack ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                "         --resource WebServerInstance ",
+                                "         --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "\n"
+                            ]
+                        ]
+                    }
+                }
+            },
+            "CreationPolicy": {
+                "ResourceSignal": {
+                    "Timeout": "PT5M"
+                }
+            }
+        },
+        "WebServerSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Enable HTTP access via port 80",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": {
+                            "Ref": "SSHLocation"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "Outputs": {
+        "WebsiteURL": {
+            "Description": "URL for newly created LAMP stack",
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "http://",
+                        {
+                            "Fn::GetAtt": [
+                                "WebServerInstance",
+                                "PublicDnsName"
+                            ]
+                        }
+                    ]
+                ]
+            }
+        }
+    }
+}

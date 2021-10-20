@@ -27,15 +27,14 @@ SET time_zone = "+00:00";
 -- Table structure for table `crypto_data`
 --
 
-CREATE TABLE `crypto_data` (
-  `id` int(11) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `symbol` varchar(50) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `price` double NOT NULL,
-  `currency` varchar(50) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE crypto_data (id int(11) NOT NULL,
+  email varchar(50) NOT NULL,
+  symbol varchar(50) NOT NULL,
+  name varchar(50) NOT NULL,
+  price double NOT NULL,
+  currency varchar(50) NOT NULL,
+  timestamp timestamp NOT NULL DEFAULT current_timestamp()
+);
 
 --
 -- Indexes for dumped tables
